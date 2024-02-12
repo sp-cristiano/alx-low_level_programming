@@ -3,7 +3,8 @@
 /**
  * create_file - this function will creates a file
  * @filename: this is the filename.
- * @text_content: this is the text content to be written in the file.
+ * @text_content: this is the text content to be
+ * written in the file.
  *
  * Return: to return 1 if successful or -1 if it fails.
  */
@@ -24,7 +25,8 @@ int create_file(const char *filename, char *text_content)
 	if (!text_content)
 		text_content = "";
 
-	for (nletters = 0; text_content[nletters]; nletters++);
+	for (nletters = 0; text_content[nletters]; nletters++)
+		;
 
 	rwr = write(fd, text_content, nletters);
 

@@ -4,6 +4,8 @@
 
 /**
  * main - check the code
+ * @ac: variable ac
+ * @av: variable av
  *
  * Return: Always 0.
  */
