@@ -24,58 +24,57 @@ int main(void)
 		read_cmd = getline(&cmd, &cmd_len, stdin);
 		token = strtok(cmd,"\t\n");
 		array = malloc(sizeof(char *)* 1024);
-		if (read_cmd != -1){
-			printf("\n%s\n",cmd);
+		if (read_cmd == -1){
+			break;
+			//printf("\n%s\n",cmd);
 		}
-		if (token == NULL){
-			//if no command entered, prompt again.
-			continue;
-		}
-		while(token != NULL){
-			array[i] = token;
-			token = strtok(NULL, "\t\n");
-			i++;
-		}
-
-		array[i] = NULL;
-
-		//Fork for child process
-		c_pid = fork();
-
-		if(c_pid < 0){
-			perror("Error");
-			return (1);
-		}
-		else if (c_pid == 0)
-		{
-			//child prrocess
-			if(execve(array[0], array, NULL) == -1){
-				perror("Error with the Execve");
-				exit(EXIT_FAILURE);
+		else{
+			//break;
+			if (token == NULL){
+				//if no command entered, prompt again.
+				continue;
 			}
-		}
-		else
-		{
-			//parent process
-			int status;
-			waitpid(c_pid, &status, 0);
-
-			//Check for wait error
-			if (WIFEXITED(status)){
-				printf("\nChild process %d exited with status %d\n", c_pid, WEXITSTATUS(status));
-			} else{
-				printf("Child process %d terminated abnormally \n",c_pid);
+			while(token != NULL){
+				array[i] = token;
+				token = strtok(NULL, "\t\n");
+				i++;
 			}
-		}
+
+			array[i] = NULL;
+
+			//Fork for child process
+			c_pid = fork();
+
+			if(c_pid < 0){
+				perror("Error");
+				return (1);
+			}
+			else if (c_pid == 0)
+			{
+				//child prrocess
+				if(execve(array[0], array, NULL) == -1){
+					perror("Error with the Execve");
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				//parent process
+				int status;
+				waitpid(c_pid, &status, 0);
+
+				//Check for wait error
+				if (WIFEXITED(status)){
+					printf("\nChild process %d exited with status %d\n", c_pid, WEXITSTATUS(status));
+				} else{
+					printf("Child process %d terminated abnormally \n",c_pid);
+				}
+			}
 		
-		i = 0;
-		free(array);
-
-
-	
-
+			i = 0;
+			free(array);
+		}
 	}
-	// Free allocated memory
-	//free(cmd);
+
 	return (0);
 }
