@@ -1,3 +1,3 @@
 #!/bin/bash
-gcc -shared -o myprintf.so -fPIC test.c
-export LD_PRELOAD=./myprintf.so
+wget -P /tmp https://github.com/sp-cristiano/alx-low_level_programming/raw/master/0x18-dynamic_libraries/libgiga.so
+export LD_PRELOAD=/temp/libgiga.so
